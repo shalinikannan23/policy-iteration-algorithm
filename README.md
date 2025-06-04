@@ -4,14 +4,23 @@
 To develop a Python program to find the optimal policy for the given MDP using the policy iteration algorithm.
 
 ## PROBLEM STATEMENT
-The aim of this experiment is to find optimal policy for the mdp using policy iteration. Policy iteration includes policy evaluation and policy improvement where evaluation function is used to find optimal value function of each state and then improvement function is used to find best policy by comparing all the action value function as well as policy.
+The FrozenLake environment is a benchmark reinforcement learning task where an agent must navigate a grid-based frozen surface to reach a goal state without falling into holes. The environment is stochastic, meaning that the agent's actions have uncertain outcomes due to slippery tiles.
+
+The environment is modeled as a Markov Decision Process (MDP) with:
+
+- States: Each cell in the grid.
+
+- Actions: Move left, right, up, or down.
+
+- Transition Probabilities: Due to the slippery nature, intended actions might not always be executed.
+
+- Rewards: +1 for reaching the goal (G), 0 otherwise.
+
+The goal is to determine the optimal policy—a mapping from states to actions—that maximizes the cumulative reward. This is done using the Policy Iteration algorithm, which iteratively evaluates and improves a policy until convergence.
 
 ## POLICY ITERATION ALGORITHM
-### Step1 :
-we are going to do policy evaluation of each state to get the state value function where the initial policy is defined randomly to the mdp.
 
-### Step2:
-Once we obtain convergence in the policy evaluation then implement policy improvement where we are going to find best optimal policy until the previous and current policy are same.
+![image](https://github.com/user-attachments/assets/7209c4fa-d76c-4a73-a376-2dfd1f01297f)
 
 ## POLICY IMPROVEMENT FUNCTION
 
@@ -37,15 +46,19 @@ DEVELOPED BY : SHALINI K
 REGISTER NUMBER : 212222240095
 
 def policy_iteration(P, gamma=1.0, theta=1e-10):
-   random_actions=np.random.choice(tuple(P[0].keys()),len(P))
-   pi = lambda s: {s:a for s, a in enumerate(random_actions)}[s]
-   while True:
-    old_pi = {s:pi(s) for s in range(len(P))}
-    V = policy_evaluation(pi, P,gamma,theta)
-    pi = policy_improvement(V,P,gamma)
-    if old_pi == {s:pi(s) for s in range(len(P))}:
-      break
-   return V, pi
+    random_actions = np.random.choice(tuple(P[0].keys()), len(P))
+    pi = lambda s: {s: a for s, a in enumerate(random_actions)}[s]
+
+    while True:
+        old_pi = {s: pi(s) for s in range(len(P))}
+        V = policy_evaluation(pi, P, gamma, theta)
+        pi = policy_improvement(V, P, gamma)
+
+        if old_pi == {s: pi(s) for s in range(len(P))}:
+            break
+
+    return V, pi
+
 ```
 
 ## OUTPUT:
